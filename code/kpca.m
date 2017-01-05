@@ -1,4 +1,4 @@
-function [eigenvalue, eigenvectors, project_invectors] = kpca(x, sigma, cls, target_dim)
+function [eigenvalue, eigenvectors, project_invectors] = kpca(x, kernel, targetDim)
   % Kernel PCA with a given target dimension
   psize=size(x);  % Input data set m*n
   m=psize(1);   % Sample Number
@@ -9,13 +9,13 @@ function [eigenvalue, eigenvectors, project_invectors] = kpca(x, sigma, cls, tar
   l=ones(m,m);
   for i=1:m
     for j=1:m
-     k(i,j)=kernel(x(i,:),x(j,:),cls,sigma);
+     k(i,j)=kernel(x(i,:),x(j,:));
     end
   end
 
 
   % centered kernel matrix
-  kl=k-l*k/m-k*l/m+l*k*l/(m*m); 
+  kl=k-l*k/m-k*l/m+l*k*l/(m*m);
 
 
   % eigenvectors and eigenvalue
@@ -36,8 +36,8 @@ function [eigenvalue, eigenvectors, project_invectors] = kpca(x, sigma, cls, tar
     end
     rank = rank + 1;
   end
-  eigenvectors = v(:, 1 : target_dim);
-  eigenvalue = e(1 : target_dim);
+  eigenvectors = v(:, 1 : targetDim);
+  eigenvalue = e(1 : targetDim);
 
 
   % projection
