@@ -1,20 +1,13 @@
-
+% Author: Wenyi
 clear all;
 close all;
 clc;
 % generating linearly unclusterable data, load if it already exists
-if not(exist('X1.mat'))
+if not(exist('data/testKPCA_data.mat'))
   [X1, X2, X3] = generate_data();
-  save 'X1.mat'  X1
-  save 'X2.mat'  X2
-  save 'X3.mat'  X3
+  save 'data/testKPCA_data.mat' X1 X2 X3
 else
-  load 'X1.mat'
-  load 'X2.mat'
-  load 'X3.mat'
-  X1=X1';
-  X2=X2';
-  X3=X3';
+  load 'data/testKPCA_data.mat'
 end
 
 % Original data
@@ -29,7 +22,7 @@ hold on;
 title('original data');
 xlabel('first dimension');
 ylabel('second dimension');
-saveas(gcf, 'original_data.jpg')
+saveas(gcf, 'fig/original_data.jpg')
 
 % merge samples
 X = [X1 X2 X3];
@@ -54,14 +47,14 @@ hold on;
 title('PCA');
 xlabel('first dimension');
 ylabel('second dimension');
-saveas(gcf, 'PCA_Projection.jpg')
+saveas(gcf, 'fig/PCA_Projection.jpg')
 
 % KPCA
 percent = 1;
 targetDim = 2;
 % = Create kernel =
-kernelType = 'poly' % polynomial kernel
-params = [6] % kernel parameters
+kernelType = 'rbf'; % polynomial kernel
+params = 6; % kernel parameters
 kernel = MakeKernel(kernelType, params); % returns an anonymous function
 % Perform KPCA
 [value_KPCA, vec_KPCA, Y_KPCA] = kpca(X', kernel, targetDim);
@@ -74,9 +67,9 @@ plot(Y_KPCA(1, gSmpl),Y_KPCA(2, gSmpl), 'g*');
 hold on;
 plot(Y_KPCA(1, bSmpl),Y_KPCA(2, bSmpl), 'b.');
 hold on;
-str = sprintf('KPCA(p=%d)', params(1));
+str = sprintf('KPCA(p=%d,kernel=%s)', params, kernelType);
 title(str);
 xlabel('first dimension');
 ylabel('second dimension');
-str = strcat(str, 'KPCA_Projection.jpg');
+str = strcat('fig/', str, 'KPCA_Projection.jpg');
 saveas(gcf, str)
