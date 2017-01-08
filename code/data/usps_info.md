@@ -1,3 +1,9 @@
+# USPS Dataset
+
+usps_full_test.mat
+
+usps_full_train.mat
+
 Normalized handwritten digits, automatically
 scanned from envelopes by the U.S. Postal Service. The original
 scanned digits are binary and of different sizes and orientations; the
@@ -26,4 +32,16 @@ The test set is notoriously "difficult", and a 2.5% error rate is
 excellent. These data were kindly made available by the neural network
 group at AT&T research labs (thanks to Yann Le Cunn).
 
+## usps_data.mat
+Contains two matrices, trainData and testData. 
 
+trainData contains 3000 samples, 300 of each number. 
+
+testData contains 500 samples, 50 of each number.
+
+## usps_noisy_test.mat
+Contains two matrices, gaussianTest and speckleTest. They are noisy versions of testData.
+
+gaussianTest have a gaussian noise N(0,0.5^2). 
+
+speckleTest have 'speckle' with probability p=0.4 (i.e. each pixel flips to black or white with probability p/2).
