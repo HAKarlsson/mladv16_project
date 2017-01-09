@@ -33,12 +33,13 @@ function [eigenvalue, eigenvectors, projectInvectors] = kpca(X, kernel, targetDi
   v = v(:, index);
   rank = 0; % use?
   for i = 1 : size(v, 2)
-    if e(i) ~= 0
+    if e(i) == 0
       break;
     end
-    v(:, i) = v(:, i) ./ sqrt(e(i));
+    v(:, i) = v(:, i)/sqrt(e(i));
     rank = rank + 1;
   end
+  
   eigenvectors = v(:, 1 : targetDim);
   eigenvalue = e(1 : targetDim);
 
