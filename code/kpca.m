@@ -28,7 +28,7 @@ function [lambdas, alphas, projectInvectors] = kpca(X, kernel, targetDim)
   lambdas = eigval(1:targetDim);
 
   % normalize V by using lambda*||alpha||^2 = 1
-  alphas = alphas./repmat(sqrt(lambdas),1,size(lambdas))';
+  alphas = alphas./repmat(sqrt(lambdas),1,size(lambdas,2))';
 
   % calculate the projection in selected eigen space
   projectInvectors = K*alphas;
