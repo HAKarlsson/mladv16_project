@@ -15,7 +15,9 @@ function [eigenvalue, eigenvectors, projectInvectors] = kpca(X, kernel, targetDi
     end
   end
   k += k'; % symmetry
-  k += eye(m) * kernel(X(1,:), X(1,:)); % calc diagonal
+  for i = 1:m
+    k(i,i) = kernel(X(i,:), X(i,:));
+  end
 
   % centered kernel matrix
   display('centering')
@@ -39,7 +41,6 @@ function [eigenvalue, eigenvectors, projectInvectors] = kpca(X, kernel, targetDi
     v(:, i) = v(:, i)/sqrt(e(i));
     rank = rank + 1;
   end
-  
   eigenvectors = v(:, 1 : targetDim);
   eigenvalue = e(1 : targetDim);
 
