@@ -17,9 +17,8 @@ function K = calculate_kernelmatrix(X, kernel)
     K(i, i) = kernel(X(i, :), X(i, :));
   end
 
-  % centered kernel matrix
+  % centralize kernel matrix
   l = ones(m) / m;
   K = K - l*K - K*l + l*K*l;
 
 end
-
