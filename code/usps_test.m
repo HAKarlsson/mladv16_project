@@ -11,6 +11,3 @@ display('Kernel PCA');
 
 % !!! tmp. using test data because it is smaller, faster execution
 [eigenvalue, eigenvectors, projectInvectors] = kpca(testData(:,2:257), kernel, comp);
-size(eigenvalue)
-size(eigenvectors)
-size(projectInvectors)

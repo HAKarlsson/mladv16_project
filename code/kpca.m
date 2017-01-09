@@ -32,5 +32,4 @@ function [lambdas, alphas, projectInvectors] = kpca(X, kernel, targetDim)
 
   % calculate the projection in selected eigen space
   projectInvectors = K*alphas;
-  % projectInvectors == betas?
 end
