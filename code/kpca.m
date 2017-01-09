@@ -4,24 +4,11 @@ function [eigenvalue, eigenvectors, projectInvectors] = kpca(X, kernel, targetDi
   % Kernel PCA with a given target dimension
   [m, n] = size(X);  % Input data set m*n
 
-  % Calculate Kernel Matrix K using its symmetry
-  k = zeros(m);
-  for i = 1:m
-    for j = (i+1):m
-      k(i,j) = kernel(X(i, :), X(j, :));
-    end
-  end
-  k += k'; % symmetry
-  for i = 1:m
-    k(i, i) = kernel(X(i, :), X(i, :));
-  end
-
-  % centered kernel matrix
-  l = ones(m) / m;
-  kl = k - l*k - k*l + l*k*l;
+  % Calculate Kernel Matrix K
+  K = calculate_kernelmatrix(X, kernel);
 
   % eigenvectors and eigenvalue
-  [v,e] = eig(kl);
+  [v, e] = eig(K);
   e = diag(e);
   % filter away zero eigenvalues
   v = v(:, e > 0);
@@ -33,6 +20,26 @@ function [eigenvalue, eigenvectors, projectInvectors] = kpca(X, kernel, targetDi
   eigenvectors = v(:, 1:targetDim);
   eigenvalue = e(1:targetDim);
 
+
+  % Calculate alphas, betas, gammas
+  l = m
+  alphas = ones(l, l); % FIXME: ??? - Markus
+
+  betas = zeros(l, 1);
+  for k=1:l
+    for i=1:l
+      % FIXME
+      % betas(k) = betas(k) + a(k, i) * K(
+    end
+  end
+
+  gammas = ones(l, 1);
+  for i=1:l
+    gammas(i) = betas' * alphas(:, i);
+  end
+
+  % Do the recursive step calculating z in eq 10?
+
   % calculate the projection in selected eigen space
-  projectInvectors = kl*eigenvectors;
+  projectInvectors = K*eigenvectors;
 end
