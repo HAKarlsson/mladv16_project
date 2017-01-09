@@ -23,16 +23,13 @@ function [eigenvalue, eigenvectors, projectInvectors] = kpca(X, kernel, targetDi
   % eigenvectors and eigenvalue
   [v,e] = eig(kl);
   e = diag(e);
-
+  % filter away zero eigenvalues
+  v = v(:, e > 0);
+  e = e(e > 0);
   % selecting eigenvalues and eigenvectors
   [e, index] = sort(e, 'descend');
   v = v(:, index);
-  for i = 1:size(v, 2)
-    if e(i) == 0
-      break;
-    end
-    v(:, i) = v(:, i) / sqrt(e(i));
-  end
+  v = v./repmat(sqrt(e),1,size(e))'; % normalize V
   eigenvectors = v(:, 1:targetDim);
   eigenvalue = e(1:targetDim);
 
