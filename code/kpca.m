@@ -1,45 +1,50 @@
-function [eigenvalue, eigenvectors, project_invectors] = kpca(x, kernel, targetDim)
+% Authors: Wenyi, Henrik
+% Kernel PCA
+function [eigenvalue, eigenvectors, projectInvectors] = kpca(X, kernel, targetDim)
   % Kernel PCA with a given target dimension
-  psize=size(x);  % Input data set m*n
-  m=psize(1);   % Sample Number
-  n=psize(2);   % Sample Dimension
+  % Sample Number, Sample Dimension
+  [m, n] = size(X);  % Input data set m*n
 
-
-  % Calculate Kenel Matrix K
-  l=ones(m,m);
-  for i=1:m
-    for j=1:m
-     k(i,j)=kernel(x(i,:),x(j,:));
+  % Calculate Kernel Matrix K
+  display('calculating kernel matrix')
+  k = zeros(m);
+  % calculate the upper right half/triangle first, matrix is symmetric
+  for i = 1:m
+    for j = (i+1):m
+      k(i,j) = kernel(X(i,:), X(j,:));
     end
   end
-
+  k += k'; % symmetry
+  for i = 1:m
+    k(i,i) = kernel(X(i,:), X(i,:));
+  end
 
   % centered kernel matrix
-  kl=k-l*k/m-k*l/m+l*k*l/(m*m);
-
+  display('centering')
+  l = ones(m)/m;
+  kl = k - l*k - k*l + l*k*l;
 
   % eigenvectors and eigenvalue
+  display('calculating eigenvalue and eigenvector')
   [v,e] = eig(kl);
   e = diag(e);
 
-
-  % selecting eigenvalue and eigenvectors
-  [dump, index] = sort(e, 'descend');
-  e = e(index);
+  % selecting eigenvalues and eigenvectors
+  display('selecting eigenvalues and eigenvectors')
+  [e , index] = sort(e, 'descend');
   v = v(:, index);
-  rank = 0;
+  rank = 0; % use?
   for i = 1 : size(v, 2)
-    if e(i) < 1e-6
+    if e(i) == 0
       break;
-    else
-      v(:, i) = v(:, i) ./ sqrt(e(i));
     end
+    v(:, i) = v(:, i)/sqrt(e(i));
     rank = rank + 1;
   end
   eigenvectors = v(:, 1 : targetDim);
   eigenvalue = e(1 : targetDim);
 
-
   % projection
-  project_invectors = kl*eigenvectors;  %calculate the projection in selected eigen space
+  projectInvectors = kl*eigenvectors;  %calculate the projection in selected eigen space
+  display('KPCA done.')
 end
