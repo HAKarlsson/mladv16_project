@@ -3,19 +3,7 @@ clear all;
 close all;
 clc;
 % generating linearly unclusterable data, load if it already exists
-if not(exist('X1.mat'))
-  [X1, X2, X3] = generate_data();
-  save 'X1.mat'  X1
-  save 'X2.mat'  X2
-  save 'X3.mat'  X3
-else
-  load 'X1.mat'
-  load 'X2.mat'
-  load 'X3.mat'
-  X1=X1';
-  X2=X2';
-  X3=X3';
-end
+[X1, X2, X3] = generate_data();
 
 % Original data
 figure(1)
