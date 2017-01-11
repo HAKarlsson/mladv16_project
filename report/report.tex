@@ -1,5 +1,5 @@
 \documentclass[12pt]{article}
-
+\usepackage{amsmath}
 \usepackage[margin=2.5cm]{geometry}
 
 \title{
@@ -22,6 +22,10 @@
 % - 12 pt font and about 2.5cm margins
 % - At most 7 pages, including references, images and tables.
 
+\newcommand{\F}{\mathbf{F}}
+\newcommand{\V}{\mathbf{V}}
+\newcommand{\x}{\mathbf{x}}
+
 \begin{document}
 	\maketitle
 	% Begin Written report instructions.
@@ -40,5 +44,44 @@
 	All group members must participate actively in the writing of the report. By adding a group member to the author list of the report, you certify that this person has written at least one section of the report.
 	% End Written report instructions.
 	\newpage
-	The article "Kernel PCA and De-Noising in Feature Spaces" is a study of the Kernel PCA as an image de-noising.
+	\section{Kernel PCA}
+	Principal component analysis (PCA) is a statistical procedure which aims to convert a set of possibly correlated variables into a set of linearly uncorrelated variables. The PCA can clearly not detect nonlinear structures in a given dataset, however, the Kernel PCA is well suited to extract the nonlinear structures within the data. 
+	
+	The Kernel PCA can be seen as a generalization of the PCA that maps the data into some feature space $\mathbf{F}$ via a (usually nonlinear) function 
+	\[
+		\Phi:R^N \to \F
+	\]
+	and then performs a PCA on the mapped data. 
+	
+	To perform a PCA in feature space, we need to find eigenvalues $\lambda > 0$ and eigenvectors $\mathbf{V} \in \mathbf{F\setminus\{0\}}$
+	\begin{equation}
+		\lambda\V = C\V
+	\end{equation}
+	where $C$ is the covariance matrix in feature space given by
+	\begin{equation}
+		C = \frac{1}{N}\sum_{n=1}^{N}\Phi(\x_n)\Phi(\x_n)^T \label{eq:base_eq}
+	\end{equation}
+	assuming the projected data has a zero mean in feature space. 
+	
+	As $C\V = \frac{1}{N}\sum_{n=1}^{N}(\Phi(\x_n)\cdot\V)\Phi(\x_n)$, all solutions $\V$ must lie in the span of $x_1,\dots,x_N$, hence (\ref{eq:base_eq}) is equivalent to
+	\begin{equation}
+		\lambda(\x_k \cdot \V) = (\x_k \cdot C\V) \label{eq:base_eq2}
+	\end{equation}
+	and there exists coefficients $\alpha_n$ ($n=1,\dots, N$) such that
+	\begin{equation}
+		\V = \sum_{n=1}^{N}\alpha_n\Phi(\x_n) \label{eq:V}
+	\end{equation}
+	Combing (\ref{eq:base_eq2}) and (\ref{eq:V}), we get
+	\begin{gather*}
+		% == Derivation ==
+		\Phi(\x_k) \cdot C \V = \lambda \Phi(\x_k) \cdot \V \implies\\ 
+		[\Phi(\x_k) \cdot \frac{1}{N}\sum_{n=1}^{N}\Phi(\x_n)][\Phi(\x_n) \cdot \sum_{m=1}^{N}\alpha_m\Phi(\x_m)] = \lambda \Phi(\x_k) \cdot \sum_{n=1}^{N}\alpha_n \Phi(\x_n) \implies\\
+		 \frac{1}{N}\sum_{n=1}^{N}\sum_{m=1}^{N}\alpha_m[\Phi(\x_k) \cdot \Phi(\x_n)][\Phi(\x_n) \cdot \Phi(\x_m)] = \lambda \sum_{n=1}^{N}\alpha_n [\Phi(\x_k) \cdot \Phi(\x_n)]
+	\end{gather*}
+	Now we define the matrix $K$ by $K_{nm} = [\Phi(\x_n) \cdot \Phi(\x_m)]$ to arrive at,
+	\begin{equation}
+		K^2 \alpha=N \lambda K \alpha \implies K \alpha = \lambda'\alpha \quad\text{with}\quad \lambda' = N \lambda
+	\end{equation}
+	where $\alpha$ is the column vector with elements $\{\alpha_1, \dots, \alpha_N\}$.
+	
 \end{document}

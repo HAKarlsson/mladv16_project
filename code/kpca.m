@@ -1,41 +1,35 @@
 % Authors: Wenyi, Henrik
 % Kernel PCA
-function [eigenvalue, eigenvectors, projectInvectors] = kpca(X, kernel, targetDim)
-  % Kernel PCA with a given target dimension
-  [m, n] = size(X);  % Input data set m*n
+function [lambdas, alphas, projectInvectors] = kpca(X, kernel, targetDim)
+  % N: number of samples
+  [N, _] = size(X);  % Input data set m*n
 
-  % Calculate Kernel Matrix K using its symmetry
-  k = zeros(m);
-  for i = 1:m
-    for j = (i+1):m
-      k(i,j) = kernel(X(i, :), X(j, :));
-    end
-  end
-  k += k'; % symmetry
-  for i = 1:m
-    k(i, i) = kernel(X(i, :), X(i, :));
-  end
-
-  % centered kernel matrix
-  l = ones(m) / m;
-  kl = k - l*k - k*l + l*k*l;
+  % Calculate centralized Kernel Matrix K
+  K = calculate_kernelmatrix(X, kernel);
 
   % eigenvectors and eigenvalue
-  [v,e] = eig(kl);
-  e = diag(e);
+  % (N*lambda)*alpha = K*alpha
+  % therefore, alpha = eigvec and N*lambda = eigval
+  [eigvec, eigval] = eig(K);
+  eigval = diag(eigval);
+
+  % filter away zero eigenvalues
+  eigvec = eigvec(:, eigval > 0);
+  eigval = eigval(eigval > 0);
 
   % selecting eigenvalues and eigenvectors
-  [e, index] = sort(e, 'descend');
-  v = v(:, index);
-  for i = 1:size(v, 2)
-    if e(i) == 0
-      break;
-    end
-    v(:, i) = v(:, i) / sqrt(e(i));
-  end
-  eigenvectors = v(:, 1:targetDim);
-  eigenvalue = e(1:targetDim);
+  [eigval, index] = sort(eigval, 'descend');
+  eigvec = eigvec(:, index);
+
+  % alphas: eigenvectors of K
+  % lambdas: eigenvalues of K
+  % (See equation 3 in the main paper)
+  alphas  = eigvec(:, 1:targetDim);
+  lambdas = eigval(1:targetDim);
+
+  % normalize V by using lambda*||alpha||^2 = 1
+  alphas = alphas./repmat(sqrt(lambdas),1,size(lambdas,2))';
 
   % calculate the projection in selected eigen space
-  projectInvectors = kl*eigenvectors;
+  projectInvectors = K*alphas;
 end
