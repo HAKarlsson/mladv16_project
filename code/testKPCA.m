@@ -3,12 +3,12 @@ clear all;
 close all;
 clc;
 % generating linearly unclusterable data, load if it already exists
-if not(exist('data/testKPCA_data.mat'))
+% if not(exist('data/testKPCA_data.mat'))
   [X1, X2, X3] = generate_data();
   save 'data/testKPCA_data.mat' X1 X2 X3
-else
-  load 'data/testKPCA_data.mat'
-end
+% else
+%   load 'data/testKPCA_data.mat' 
+% end
 
 % Original data
 figure(1)
