@@ -1,13 +1,46 @@
 % Author: Henrik
 % base program for testing on USPS data
+clear all
 page_screen_output(0);
 page_output_immediately(1);
 
+% usps_data.mat contains:
+% trainData: 3000 samples, 300 of each number
+% testData:  500 samples, 50 of each number
 load 'data/usps_data.mat'
+X = trainData(:,2:257); % first column consists of labels
 
+% specifying kernel to be used
 comp = 256;
-kernel = make_kernel('rbf', 0.5*comp);
-display('Kernel PCA');
+kernelType = 'rbf';
+param = 0.5*comp;
+kernel = make_kernel(kernelType, param);
 
-% !!! tmp. using test data because it is smaller, faster execution
-[eigenvalue, eigenvectors, projectInvectors] = kpca(testData(:,2:257), kernel, comp);
+str = sprintf('data/usps_alpha(%s,%.2f,%d).mat', kernelType, param, comp);
+if ~exist(str) % if we have computed the alpha vectors already
+  % !!! This can take some time.
+  [_, alpha, _] = kpca(X, kernel, comp);
+  save(str, 'alpha')
+else
+  load(str)
+end
+
+% usps_noisy_test.mat contains:
+% speckleTest:  test data with "speckle" noise
+% gaussianTest: test data with gaussian noise
+% 500 samples, 50 of each number
+load 'data/usps_noisy_test.mat'
+
+
+% ==== DENOISING PART ===
+% A noisy sample
+x = gaussianTest(102,2:257);
+
+% Now we will denoise x, z is the deonoised x
+z = denoise(x, X, alpha, kernel);
+figure(1)
+usps_display(x); % show noisy sample
+saveas(gcf, 'fig/usps_2_noisy.jpg')
+figure(2)
+usps_display(z); % show denoised sample
+saveas(gcf, 'fig/usps_2_denoised.jpg')
