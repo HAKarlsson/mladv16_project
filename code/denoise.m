@@ -14,7 +14,7 @@ function z = denoise(x, X, alpha, kernel)
   % Calculate the beta vector
   kern_v = zeros(N,1);
   for n=1:N
-    kern_v(n) = kernel(x,X(n,:));
+    kern_v(n) = kernel(x, X(n,:));
   end
   beta = alpha' * kern_v;
 
@@ -24,12 +24,18 @@ function z = denoise(x, X, alpha, kernel)
   % Calculater pre image
   z = x; % x as initial guess
   for i=1:100 % TODO: better break condition
-    numerator = zeros(size(x));
-    denumerator = 0;
+    num = zeros(size(x));
+    denum = 0;
     for n=1:N
+<<<<<<< HEAD
       fac = kernel(z,X(n,:)) * gamma(n);
       numerator = numerator + X(n,:) * fac;
       denumerator = denumerator + fac;
+=======
+      fac = kernel(z, X(n,:)) * gamma(n);
+      num = num + X(n,:) * fac;
+      denum = denum + fac;
+>>>>>>> a411754cef20837adb6937a824030dab191187cc
     end
-    z = numerator / denumerator;
+    z = num / denum;
   end
