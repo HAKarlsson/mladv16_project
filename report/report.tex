@@ -104,10 +104,10 @@ where $C$ is the covariance matrix in feature space given by
 assuming the projected data has a zero mean in feature space. 
 
 As $C\V = \frac{1}{N}\sum_{n=1}^{N}(\Phi(\x_n)\cdot\V)\Phi(\x_n)$, all
-solutions $\V$ must lie in the span of $x_1,\dots,x_N$, hence
+solutions $\V$ must lie in the span of $\Phi(x_1),\dots,\Phi(x_N)$, hence
 (\ref{eq:base_eq}) is equivalent to
 \begin{equation}
-    \lambda(\x_k \cdot \V) = (\x_k \cdot C\V) \label{eq:base_eq2}
+    \lambda(\Phi(\x_k) \cdot \V) = (\Phi(\x_k) \cdot C\V) \label{eq:base_eq2}
 \end{equation}
 and there exists coefficients $\alpha_n$ ($n=1,\dots, N$) such that
 \begin{equation}
@@ -126,11 +126,13 @@ Now we define the matrix $K$ by $K_{nm} = [\Phi(\x_n) \cdot \Phi(\x_m)]$ to arri
 \end{equation}
 where $\alpha$ is the column vector with elements $\{\alpha_1, \dots, \alpha_N\}$.
 
-
+Then selecting the
 \section{Results}
 
 \section{Discussion}
 
 
-
+\newpage
+\bibliographystyle{alpha}
+\bibliography{bibfile.bib}
 \end{document}
