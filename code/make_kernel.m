@@ -3,6 +3,7 @@
 % params: kernel parameters (array to allow multiparam kernels)
 % ret: Kernel as an anonymous function
 function kernel=make_kernel(kernelType, param)
+<<<<<<< HEAD
   isOctave = exist('OCTAVE_VERSION', 'builtin') ~= 0;
   if isOctave
     % program is octave
