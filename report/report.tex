@@ -68,13 +68,26 @@ this person has written at least one section of the report.
 \newpage
 % End Written report instructions.
 
-\section{Kernel PCA}
+\section{Background}
 Principal component analysis (PCA) is a statistical procedure which aims to
 convert a set of possibly correlated variables into a set of linearly
-uncorrelated variables. The PCA can clearly not detect nonlinear structures in
-a given dataset, however, the Kernel PCA is well suited to extract the
+uncorrelated variables. The PCA cannot detect nonlinear structures in
+a given dataset, however, the Kernel PCA is well suited to extract
 nonlinear structures within the data.
 
+The report tries to use kernel PCA to de-noise data that have been exposed to
+different kinds of noise. This is done by mapping the data onto a high
+dimensional space $\F$ using a non-linear function $\Phi$.
+
+To de-noise a data point $x$ it is first mapped onto the high dimension space
+$\F$ using using the function $\Phi$. It is then projected using the
+high variance eigenvectors in the image of the training data.
+We then want to find the pre-image $z$ so $Phi(z)$ is equal to the
+projected $x$. Since the eigenvectors with small variance has been
+removed $z$ should be noise free.
+
+
+\section{Kernel PCA}
 The Kernel PCA can be seen as a generalization of the PCA that maps the data
 into some feature space $\mathbf{F}$ via a (usually nonlinear) function
 $$\Phi:R^N \to \F$$ and then performs a PCA on the mapped data.
@@ -114,7 +127,9 @@ Now we define the matrix $K$ by $K_{nm} = [\Phi(\x_n) \cdot \Phi(\x_m)]$ to arri
 where $\alpha$ is the column vector with elements $\{\alpha_1, \dots, \alpha_N\}$.
 
 
+\section{Results}
 
+\section{Discussion}
 
 
 
