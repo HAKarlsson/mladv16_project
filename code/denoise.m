@@ -23,14 +23,14 @@ function z = denoise(x, X, alpha, kernel)
 
   % Calculater pre image
   z = x; % x as initial guess
-  for i=1:100 % TODO: better break condition
+  z_old = zeros(size(z));
+  while (norm(z-z_old) > 10^-8)
+    z_old = z;
     num = zeros(size(x));
     denum = 0;
-    for n=1:N
-      fac = kernel(z, X(n,:)) * gamma(n);
-      num = num + X(n,:) * fac;
-      denum = denum + fac;
-    end
+    fac = kernel(X,z).*gamma;
+    num = fac' * X;
+    denum = sum(fac);
     z = num / denum;
   end
 end

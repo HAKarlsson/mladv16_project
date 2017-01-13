@@ -3,20 +3,10 @@
 function K = calculate_kernelmatrix(X, kernel)
   % N: number of samples
   N = size(X, 1);
-
-  % Calculate Kernel Matrix K using its symmetry
-  K = zeros(N);
-  for i = 1:N
-    for j = (i+1):N
-      K(i,j) = kernel(X(i, :), X(j, :));
-    end
-  end
-
-  K = K + K';
-  for i = 1:N
-    K(i, i) = kernel(X(i, :), X(i, :));
-  end
-
+  K = pdist(X, kernel)
+  K = squareform(K);
+  self = kernel(X,X); % calculate the kernel with itself
+  K = K + diag(self);
   % Centralize kernel matrix
   l = ones(N) / N;
   K = K - l*K - K*l + l*K*l;

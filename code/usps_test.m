@@ -6,10 +6,9 @@ function usps_test()
 % trainData: 3000 samples, 300 of each number
 % testData:  500 samples, 50 of each number
 load 'data/usps_data.mat'
-X = trainData(:, 2:257); % first column consists of labels
-
+X = testData(:, 2:257); % first column consists of labels
 % specifying kernel to be used
-comp = 256;
+comp = 128;
 kernelType = 'rbf';
 param = 0.5*comp;
 kernel = make_kernel(kernelType, param);
@@ -34,15 +33,16 @@ load('data/usps_noisy_test.mat')
 
 % ==== DENOISING PART ===
 % A noisy sample
-x = gaussianTest(104,2:257);
+x = gaussianTest(130,2:257);
 
 % Now we will denoise x, z is the denoised x
-z = denoise(x, X, alpha, kernel);
+z1 = denoise(x, X, alpha, kernel);
+x = gaussianTest(267,2:257);
 
-figure(1)
-usps_display(x); % show noisy sample
-saveas(gcf, 'fig/usps_2_noisy.png')
+z2 = denoise(x, X, alpha, kernel);
+zs = [z1;z2];
+Im = usps_matrix2images(zs);
 
-figure(2)
-usps_display(z); % show denoised sample
-saveas(gcf, 'fig/usps_2_denoised.png')
+
+I = mat2gray(Im, [1, -1]);
+imshow(I);
