@@ -1,8 +1,7 @@
 % Authors: Wenyi, Henrik
 % Kernel PCA
-function [lambdas, alphas, projectInvectors] = kpca(X, kernel, targetDim)
+function [lambdas, alphas, projectInvectors] = kpca(X, kernel, dim)
   % N: number of samples
-  [N, _] = size(X);  % Input data set m*n
 
   % Calculate centralized Kernel Matrix K
   K = calculate_kernelmatrix(X, kernel);
@@ -24,12 +23,9 @@ function [lambdas, alphas, projectInvectors] = kpca(X, kernel, targetDim)
   % alphas: eigenvectors of K
   % lambdas: eigenvalues of K
   % (See equation 3 in the main paper)
-  alphas  = eigvec(:, 1:targetDim);
-  lambdas = eigval(1:targetDim);
+  alphas  = eigvec(:, 1:dim);
+  lambdas = eigval(1:dim);
 
-  % normalize V by using lambda*||alpha||^2 = 1
-  alphas = alphas./repmat(sqrt(lambdas),1,size(lambdas,2))';
-
-  % calculate the projection in selected eigen space
+  % Calculate the projection in selected eigen space
   projectInvectors = K*alphas;
 end
