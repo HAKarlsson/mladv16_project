@@ -2,7 +2,7 @@
 
 function K = calculate_kernelmatrix(X, kernel)
   % N: number of samples
-  [N, _] = size(X);
+  N = size(X, 1);
 
   % Calculate Kernel Matrix K using its symmetry
   K = zeros(N);
@@ -17,8 +17,7 @@ function K = calculate_kernelmatrix(X, kernel)
     K(i, i) = kernel(X(i, :), X(i, :));
   end
 
-  % centralize kernel matrix
+  % Centralize kernel matrix
   l = ones(N) / N;
   K = K - l*K - K*l + l*K*l;
-
 end
