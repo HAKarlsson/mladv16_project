@@ -19,14 +19,9 @@ if ~exist(str) % if we have computed the alpha vectors already
   % !!! This can take some time.
   display('Calculating alphas from training data');
   [~, alpha, ~] = kpca(X, kernel, comp);
-<<<<<<< HEAD
   save(str,'alpha', '-v7')
 else
-=======
-  save(str,'alpha')
-else
   display('Loading alphas from file');
->>>>>>> d14b1bf7d8bea7c2d5c9b5fb2c992b24950face6
   load(str)
 end
 
