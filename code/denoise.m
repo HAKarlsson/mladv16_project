@@ -28,8 +28,8 @@ function z = denoise(x, X, alpha, kernel)
     denumerator = 0;
     for n=1:N
       fac = kernel(z,X(n,:)) * gamma(n);
-      numerator += X(n,:) * fac;
-      denumerator += fac;
+      numerator = numerator + X(n,:) * fac;
+      denumerator = denumerator + fac;
     end
     z = numerator / denumerator;
   end

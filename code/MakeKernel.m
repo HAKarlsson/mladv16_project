@@ -8,4 +8,6 @@ function kernel=MakeKernel(kernelType, param)
       kernel = @(x,y) exp(-1 / param * norm(x-y)^2);
     case 'poly' % Polynomial Kernel
       kernel = @(x,y) (sum(x.*y)+1)^param;
+    case 'linear' % Linear Kernel
+      kernel = @(x,y) sum(x.*y);
   end

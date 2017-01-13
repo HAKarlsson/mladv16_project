@@ -18,9 +18,9 @@ str = sprintf('data/usps_alpha(%s,%.2f,%d).mat', kernelType, param, comp);
 if ~exist(str) % if we have computed the alpha vectors already
   % !!! This can take some time.
   [~, alpha, ~] = kpca(X, kernel, comp);
-  save str 'alpha'
+  save(str,'alpha')
 else
-  load str
+  load(str)
 end
 
 % usps_noisy_test.mat contains:
@@ -32,7 +32,7 @@ load 'data/usps_noisy_test.mat'
 
 % ==== DENOISING PART ===
 % A noisy sample
-x = gaussianTest(102,2:257);
+x = gaussianTest(104,2:257);
 
 % Now we will denoise x, z is the denoised x
 z = denoise(x, X, alpha, kernel);
