@@ -27,9 +27,15 @@ function z = denoise(x, X, alpha, kernel)
     num = zeros(size(x));
     denum = 0;
     for n=1:N
+<<<<<<< HEAD
+      fac = kernel(z,X(n,:)) * gamma(n);
+      numerator = numerator + X(n,:) * fac;
+      denumerator = denumerator + fac;
+=======
       fac = kernel(z, X(n,:)) * gamma(n);
       num = num + X(n,:) * fac;
       denum = denum + fac;
+>>>>>>> a411754cef20837adb6937a824030dab191187cc
     end
     z = num / denum;
   end

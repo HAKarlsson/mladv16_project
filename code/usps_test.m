@@ -19,9 +19,14 @@ if ~exist(str) % if we have computed the alpha vectors already
   % !!! This can take some time.
   display('Calculating alphas from training data');
   [~, alpha, ~] = kpca(X, kernel, comp);
+<<<<<<< HEAD
+  save(str,'alpha')
+else
+=======
   save(str, 'alpha')
 else
   display('Loading alphas from file');
+>>>>>>> a411754cef20837adb6937a824030dab191187cc
   load(str)
 end
 
@@ -34,7 +39,7 @@ load('data/usps_noisy_test.mat')
 
 % ==== DENOISING PART ===
 % A noisy sample
-x = gaussianTest(102,2:257);
+x = gaussianTest(104,2:257);
 
 % Now we will denoise x, z is the denoised x
 z = denoise(x, X, alpha, kernel);
