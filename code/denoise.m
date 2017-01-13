@@ -20,17 +20,20 @@ function z = denoise(x, X, alpha, kernel)
 
   % Calculate the gamma vector
   gamma = alpha * beta;
-  gamma = gamma + (1/N)*(1-sum(gamma));
+  % gamma = gamma + (1/N)*(1-sum(gamma));
+
   % Calculater pre image
   z = x; % x as initial guess
   z_old = zeros(size(z));
-  while (norm(z-z_old) > 10^-8)
+  iter = 0;
+  while (norm(z-z_old) > 10^-8 && iter < 1000)
     z_old = z;
     num = zeros(size(x));
     denum = 0;
-    fac = kernel(z, X).*gamma;
+    fac = kernel(z, X) .* gamma;
     num = fac' * X;
     denum = sum(fac);
     z = num / denum;
+    iter = iter + 1;
   end
 end
