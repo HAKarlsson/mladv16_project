@@ -33,3 +33,4 @@ function z = denoise(x, X, alpha, kernel)
     end
     z = num / denum;
   end
+end
