@@ -9,5 +9,5 @@ function kernel=MakeKernel(kernelType, param)
     case 'poly' % Polynomial Kernel
       kernel = @(x,y) (sum(x.*y)+1)^param;
     case 'linear' % Linear Kernel
-      kernel = @(x,y) sum(x.*y);
+      kernel = @(x,y) sum(x.*y); 
   end
