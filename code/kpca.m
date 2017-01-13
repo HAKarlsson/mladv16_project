@@ -1,31 +1,40 @@
-% Authors: Wenyi, Henrik
-% Kernel PCA
-function [lambdas, alphas, projectInvectors] = kpca(X, kernel, dim)
-  % N: number of samples
-
-  % Calculate centralized Kernel Matrix K
-  K = calculate_kernelmatrix(X, kernel);
-
-  % eigenvectors and eigenvalue
-  % (N*lambda)*alpha = K*alpha
-  % therefore, alpha = eigvec and N*lambda = eigval
-  [eigvec, eigval] = eig(K);
-  eigval = diag(eigval);
-
-  % filter away zero eigenvalues
-  eigvec = eigvec(:, eigval > 0);
-  eigval = eigval(eigval > 0);
-
-  % selecting eigenvalues and eigenvectors
-  [eigval, index] = sort(eigval, 'descend');
-  eigvec = eigvec(:, index);
-
-  % alphas: eigenvectors of K
-  % lambdas: eigenvalues of K
-  % (See equation 3 in the main paper)
-  alphas  = eigvec(:, 1:dim);
-  lambdas = eigval(1:dim);
-
-  % Calculate the projection in selected eigen space
-  projectInvectors = K*alphas;
+function [Y, eigVector, eigValue]=kPCA(X,d,type,para)
+%   X: data matrix, each row is one observation, each column is one feature
+%   d: reduced dimension
+%   type: type of kernel, can be 'simple', 'poly', or 'gaussian'
+%   para: parameter for computing the 'poly' and 'gaussian' kernel, 
+%       for 'simple' it will be ignored
+%   Y: dimensionanlity-reduced data
+%   eigVector: eigen-vector, will later be used for pre-image
+%       reconstruction
+%% check input
+if ( strcmp(type,'simple') || strcmp(type,'poly') || ...
+        strcmp(type,'gaussian') ) == 0
+    Y=[];
+    eigVector=[];
+    fprintf(['\nError: Kernel type ' type ' is not supported. \n']);
+    return;
 end
+
+N=size(X,1);
+
+%% kernel PCA
+K0 = kernel(X,type,para);
+oneN=ones(N,N)/N;
+K=K0-oneN*K0-K0*oneN+oneN*K0*oneN;
+
+%% eigenvalue analysis
+[V,D]=eig(K);
+eigValue=diag(D);
+[~,IX]=sort(eigValue,'descend');
+eigVector=V(:,IX);
+eigValue=eigValue(IX);
+
+%% normailization
+norm_eigVector=sqrt(sum(eigVector.^2));
+eigVector=eigVector./repmat(norm_eigVector,size(eigVector,1),1);
+
+%% dimensionality reduction
+eigVector=eigVector(:,1:d);
+Y=K0*eigVector;
+

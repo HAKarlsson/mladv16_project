@@ -20,7 +20,7 @@ function z = denoise(x, X, alpha, kernel)
 
   % Calculate the gamma vector
   gamma = alpha * beta;
-
+  gamma = gamma + + (1/N)*(1-sum(gamma));
   % Calculater pre image
   z = x; % x as initial guess
   for i=1:100 % TODO: better break condition
@@ -30,7 +30,7 @@ function z = denoise(x, X, alpha, kernel)
       fac = kernel(z, X(n,:)) * gamma(n);
       num = num + X(n,:) * fac;
       denum = denum + fac;
+
     end
     z = num / denum;
   end
-end
