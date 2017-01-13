@@ -17,17 +17,19 @@ kernel = make_kernel(kernelType, param);
 str = sprintf('data/usps_alpha(%s,%.2f,%d).mat', kernelType, param, comp);
 if ~exist(str) % if we have computed the alpha vectors already
   % !!! This can take some time.
+  display('Calculating alphas from training data');
   [~, alpha, ~] = kpca(X, kernel, comp);
-  save str 'alpha'
+  save(str, 'alpha')
 else
-  load str
+  display('Loading alphas from file');
+  load(str)
 end
 
 % usps_noisy_test.mat contains:
 % speckleTest:  test data with "speckle" noise
 % gaussianTest: test data with gaussian noise
 % 500 samples, 50 of each number
-load 'data/usps_noisy_test.mat'
+load('data/usps_noisy_test.mat')
 
 
 % ==== DENOISING PART ===
