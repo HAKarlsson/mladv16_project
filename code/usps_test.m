@@ -18,9 +18,9 @@ str = sprintf('data/usps_alpha(%s,%.2f,%d).mat', kernelType, param, comp);
 if ~exist(str) % if we have computed the alpha vectors already
   % !!! This can take some time.
   [~, alpha, ~] = kpca(X, kernel, comp);
-  save str 'alpha'
+  save(str,'alpha', '-v7')
 else
-  load str
+  load(str)
 end
 
 % usps_noisy_test.mat contains:

@@ -2,12 +2,12 @@
 % Author: Henrik Karlsson
 
 % load trainData and testData
-load 'data/usps_data.mat'
+load('data/usps_data.mat')
 
 labels = testData(:,1);
 % Gaussian noise
-gaussianTest = testData + normrnd(0, 0.5, size(gNoiseData));
-gaussianTest = max(min(gNoiseData,1),-1);
+gaussianTest = testData + normrnd(0, 0.5, size(testData));
+gaussianTest = max(min(gaussianTest,1),-1);
 gaussianTest(:,1) = labels; % restore labels
 
 % 'Speckle' Noise
@@ -21,4 +21,4 @@ speckleTest = pick_pixel.*flip_flop + ~pick_pixel.*testData;
 speckleTest(:,1) = labels; % restore labels
 
 % save matrices to the same file
-save 'data/usps_noisy_test.mat' gaussianTest speckleTest
+save('data/usps_noisy_test.mat', '-v7', 'gaussianTest', 'speckleTest')
