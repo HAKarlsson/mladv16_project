@@ -28,7 +28,7 @@ function [lambdas, alphas, projectInvectors] = kpca(X, kernelM, dim)
   % (See equation 3 in the main paper)
   alphas  = eigvec(:, 1:dim);
   lambdas = eigval(1:dim);
-  alphas  = alphas ./ repmat(sqrt(lambdas'), [N,1])
+  alphas  = alphas ./ repmat(sqrt(lambdas'), [N,1]);
   % Calculate the projection in selected eigen space
   projectInvectors = K*alphas;
 end
