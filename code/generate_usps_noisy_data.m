@@ -6,12 +6,13 @@ load('data/usps_data.mat')
 labels = testData(:,1);
 % Gaussian noise
 gaussianTest = testData + normrnd(0, 0.5, size(testData));
-gaussianTest = max(min(gaussianTest,1),0);
+gaussianTest = max(min(gaussianTest,1),-1);
 gaussianTest(:,1) = labels; % restore labels
 
 % 'Speckle' Noise
 % flip flop, random bits turned to 0, 1 (black, white)
 flip_flop = randi([0,1],size(testData));
+flip_flop(flip_flop == 0) = -1;
 % pick_pixel, 1 if we should flip flop the pixel
 pick_pixel = rand(size(testData)) < 0.4;
 % flip the selected pixels
@@ -29,8 +30,8 @@ for i=c
   z = [z;x];
 end
 Im = usps_matrix2images(z);
-I = mat2gray(Im, [1, 0]);
-imwrite(I, sprintf('fig/usps_specke.jpg'));
+I = mat2gray(Im, [1, -1]);
+imwrite(I, sprintf('fig/usps_speckle.jpg'));
 
 z=[];
 % Now we will denoise x, z is the denoised x
@@ -39,7 +40,7 @@ for i=c
   z = [z;x];
 end
 Im = usps_matrix2images(z);
-I = mat2gray(Im, [1, 0]);
+I = mat2gray(Im, [1, -1]);
 imwrite(I, sprintf('fig/usps_gaussian.jpg'));
 
 z=[];
@@ -49,5 +50,5 @@ for i=c
   z = [z;x];
 end
 Im = usps_matrix2images(z);
-I = mat2gray(Im, [1, 0]);
+I = mat2gray(Im, [1, -1]);
 imwrite(I, sprintf('fig/usps_test.jpg'));

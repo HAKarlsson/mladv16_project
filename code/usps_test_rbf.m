@@ -1,6 +1,6 @@
 % Author: Henrik
 % base program for testing on USPS data
-function usps_test()
+function usps_test_rbf()
 
 % usps_data.mat contains:
 % trainData: 3000 samples, 300 of each number
@@ -48,8 +48,8 @@ for comp=[1, 4, 16, 64, 256]
     z = [z;zi];
   end
   Im = usps_matrix2images(z);
-  I = mat2gray(Im, [1, 0]);
-  imwrite(I, sprintf('fig/usps_%s_gaussian%3.3dp%3.1f.jpg', kernelType , comp, param));
+  I = mat2gray(Im, [1, -1]);
+  imwrite(I, sprintf('fig/usps_%s_gaussian%3.3dp%3.0f.jpg', kernelType , comp, param));
 end
 
 for comp=[1, 4, 16, 64, 256]
@@ -64,6 +64,6 @@ for comp=[1, 4, 16, 64, 256]
     z = [z;zi];
   end
   Im = usps_matrix2images(z);
-  I = mat2gray(Im, [1, 0]);
-  imwrite(I, sprintf('fig/usps_%s_speckle%3.3dp%3.1f.jpg', kernelType, comp, param));
+  I = mat2gray(Im, [1, -1]);
+  imwrite(I, sprintf('fig/usps_%s_speckle%3.3dp%3.0f.jpg', kernelType, comp, param));
 end
