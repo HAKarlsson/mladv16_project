@@ -36,9 +36,9 @@ end
 % end
 
 para = 2*sigma^2;
-kernel=make_kernel('rbf', para);
+[kernel, kernelM]=make_kernel('rbf', para);
 %[lambdas, alphas, projectInvectors] = kpca_team(data_train, kernel, dim);
-[lambdas, alphas, projectInvectors] = kpca(data_train, kernel, dim); Git
+[lambdas, alphas, projectInvectors] = kpca(data_train, kernelM, dim); Git
 
 z = zeros(size(data_test));
 h_input = waitbar(0,'Wait...');
@@ -50,15 +50,15 @@ end
 
 %% Linear PCA
 
-kernel = make_kernel('poly',1);
+[kernel, kernelM] = make_kernel('poly',1);
 %[lambdas, alphas, projectInvectors] = kpca_team(data_train, kernel, dim);
-[lambdas, alphas, projectInvectors] = kpca(data_train, kernel, dim);
+[lambdas, alphas, projectInvectors] = kpca(data_train, kernelM, dim);
 %[coeff,score,~,~,~,mu] = pca(data_train,'Centered',true,'NumComponents',2);
 %res = score*coeff' + ones(size(data_train,1))*mu';
 z_plain = zeros(size(data_test));
 h_input = waitbar(0,'Wait...');
 for i=1:size(data_test,1) % 33
-    
+
     z_plain(i,:) = denoise(data_test(i,:), data_train, alphas, kernel); % score is the eigenvectors
     waitbar(i/size(data_test,1))
 end

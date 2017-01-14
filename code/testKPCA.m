@@ -2,20 +2,12 @@
 function testKPCA()
 
 % generating linearly unclusterable data, load if it already exists
-<<<<<<< HEAD
-[X1, X2, X3] = generate_data();
-=======
-<<<<<<< HEAD
-[X1, X2, X3] = generate_data();
-=======
 if not(exist('data/testKPCA_data.mat'))
   [X1, X2, X3] = generate_data();
   save 'data/testKPCA_data.mat' X1 X2 X3
 else
   load 'data/testKPCA_data.mat'
 end
->>>>>>> dd43c9566b33e26b0262602b3b792dabaf26ba6c
->>>>>>> Wenyi
 
 % Original data
 figure(1)

@@ -7,7 +7,14 @@
 % kernel: the kernel function
 %
 % Output: z: denoised x
-function z = denoise(x, X, alpha, kernel)
+function z = denoise(x, X, alpha, kernel, max_iter, min_iter)
+
+  if ~exist('max_iter', 'var')
+    max_iter = 1000;
+  end
+  if ~exist('min_iter', 'var')
+    min_iter = 0;
+  end
   % get the
   N = size(X, 1);
 
@@ -18,13 +25,13 @@ function z = denoise(x, X, alpha, kernel)
 
   % Calculate the gamma vector
   gamma = alpha * beta;
-  gamma = gamma + (1/N)*(1-sum(gamma));
+  gamma = gamma + 1 / N * (1 - sum(gamma));
 
   % Calculater pre image
   z = x; % x as initial guess
   z_old = zeros(size(z));
   iter = 0;
-  while (norm(z-z_old) > 10^-8 && iter < 2000)
+  while (norm(z-z_old) > 10^-8 && iter < max_iter || iter < min_iter)
     z_old = z;
     num = zeros(size(x));
     denum = 0;

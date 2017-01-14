@@ -14,8 +14,8 @@ N = size(X, 1);
 
 % Perform the kPCA
 param = 2*sigma^2;
-kernel = make_kernel('rbf', param);
-[~, alphas, ~] = kpca(X, kernel, 2);
+[kernel, kernelM] = make_kernel('rbf', param);
+[~, alphas, ~] = kpca(X, kernelM, 2);
 
 
 % The training data is the generated half circle. The train data is the
@@ -44,9 +44,9 @@ legend('-DynamicLegend');
 saveas(gcf, 'fig/kpca_circle.png');
 
 
-kernel = make_kernel('poly', 1);
+[kernel, kernelM] = make_kernel('poly', 1);
 % [~, alphas, ~, ~, ~, ~] = pca(train_data, 'Centered', true, 'NumComponents', 2);
-[~, alphas, ~] = kpca(train_data, kernel, 2);
+[~, alphas, ~] = kpca(train_data, kernelM, 2);
 
 z_plain = zeros(size(X));
 for i=1:N
@@ -59,5 +59,3 @@ plot(x_n, y_n, '.', 'DisplayName', 'Noised Data')
 plot(z_plain(:, 1), z_plain(:, 2), 'x', 'DisplayName', 'Denoised Data')
 legend('-DynamicLegend');
 saveas(gcf, 'fig/pca_circle.png');
-
-
