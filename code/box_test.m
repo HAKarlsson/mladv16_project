@@ -20,8 +20,8 @@ N = size(data_train, 1);
 
 % Perform kPCA
 param = 2*sigma^2;
-kernel = make_kernel('rbf', param);
-[~, alphas, ~] = kpca(data_train, kernel, 12);
+[kernel, kernelM] = make_kernel('rbf', param);
+[~, alphas, ~] = kpca(data_train, kernelM, 12);
 
 z = zeros(size(data_test));
 for i=1:N
@@ -37,8 +37,8 @@ saveas(gcf, 'fig/kpca_box.png');
 
 
 % Compare to PCA
-kernel = make_kernel('poly', 1);
-[~, alphas, ~] = kpca(data_train, kernel, 1);
+[kernel, kernelM] = make_kernel('poly', 1);
+[~, alphas, ~] = kpca(data_train, kernelM, 1);
 
 z = zeros(size(data_test));
 for i=1:N
@@ -51,5 +51,3 @@ plot(data_test(:, 1), data_test(:, 2), '.', 'DisplayName', 'Noised Data')
 plot(z(:, 1), z(:, 2), 'x', 'DisplayName', 'Denoised Data')
 legend('-DynamicLegend')
 saveas(gcf, 'fig/pca_box.png');
-
-

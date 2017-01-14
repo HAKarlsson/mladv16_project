@@ -13,7 +13,6 @@ gaussianTest(:,1) = labels; % restore labels
 % 'Speckle' Noise
 % flip flop, random bits turned to -1, 1 (black, white)
 flip_flop = randi([0,1],size(testData));
-flip_flop(flip_flop==0) = -1;
 % pick_pixel, 1 if we should flip flop the pixel
 pick_pixel = rand(size(testData)) < 0.4;
 % flip the selected pixels
