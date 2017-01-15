@@ -16,7 +16,7 @@ load('data/usps_noisy_test.mat')
 X = single(trainData(:, 2:257)); % first column consists of labels
 % specifying kernel to be used
 kernelType = 'rbf';
-param = 128;
+param = 256*0.93;
 [kernel, kernelM] = make_kernel(kernelType, param);
 [N, D] = size(X);
 str = sprintf('data/usps_alpha(%s,%d,%d).mat', kernelType, param, D);

@@ -5,7 +5,7 @@
 load('data/usps_data.mat')
 labels = testData(:,1);
 % Gaussian noise
-gaussianTest = testData + normrnd(0, 0.5, size(testData));
+gaussianTest = testData + normrnd(0, 1, size(testData));
 gaussianTest = max(min(gaussianTest,1),-1);
 gaussianTest(:,1) = labels; % restore labels
 
