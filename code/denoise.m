@@ -19,7 +19,7 @@ function z = denoise(x, X, alpha, kernel, max_iter, min_iter)
   N = size(X, 1);
 
   % Calculate the beta vector
-  x_m = repmat(x, [N,1]);
+  x_m = repmat(x, [N, 1]);
   kern_v = kernel(x_m, X);
   beta = alpha' * kern_v;
 
@@ -42,5 +42,5 @@ function z = denoise(x, X, alpha, kernel, max_iter, min_iter)
     z = num / denum;
     iter = iter + 1;
   end
-  printf('Iterations: %d\n', iter);
+  % display(sprintf('Iterations: %d\n', iter));
 end
