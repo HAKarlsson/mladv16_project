@@ -42,5 +42,5 @@ function z = denoise(x, X, alpha, kernel, max_iter, min_iter)
     z = num / denum;
     iter = iter + 1;
   end
-  printf('Iterations: %d\n', iter);
+  display(sprintf('Iterations: %d\n', iter));
 end
