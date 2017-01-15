@@ -21,7 +21,7 @@ N = size(x_n, 1);
 % Perform the kPCA
 param = 2*sigma^2;
 [kernel, kernelM] = make_kernel('rbf', param);
-[~, alphas, ~] = kpca([x, y], kernelM, 8);
+[~, alphas, ~] = kpca([x, y], kernelM, 4);
 
 
 % The training data is the generated half circle. The train data is the
@@ -51,6 +51,7 @@ hold on
 % plot(x, y, 'DisplayName', 'Training Data');
 plot(x_n, y_n, '.', 'DisplayName', 'Noised Data');
 plot(z(:, 1), z(:, 2), 'x', 'DisplayName', 'Denoised Data');
+axis off
 title('KPCA Denoising');
 legend('-DynamicLegend');
 saveas(gcf, 'fig/kpca_circle.png');
@@ -58,7 +59,7 @@ saveas(gcf, 'fig/kpca_circle.png');
 
 [kernel, kernelM] = make_kernel('poly', 1);
 % [~, alphas, ~, ~, ~, ~] = pca(train_data, 'Centered', true, 'NumComponents', 2);
-[~, alphas, ~] = kpca(train_data, kernelM, 2);
+[~, alphas, ~] = kpca(train_data, kernelM, 1);
 
 z_plain = zeros(size(test_data));
 for i=1:N
@@ -69,6 +70,7 @@ figure()
 hold on
 plot(x_n, y_n, '.', 'DisplayName', 'Noised Data')
 plot(z_plain(:, 1), z_plain(:, 2), 'x', 'DisplayName', 'Denoised Data')
-title('PCA denoising');
+axis off
+title('PCA Denoising');
 legend('-DynamicLegend');
 saveas(gcf, 'fig/pca_circle.png');

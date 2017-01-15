@@ -51,7 +51,7 @@ data_test = [x1 y1; x2 y2; x3 y3; x4 y4];
 % Perform kPCA
 param = 2*sigma^2;
 [kernel, kernelM] = make_kernel('rbf', param);
-[~, alphas, ~] = kpca(data_train, kernelM, 12);
+[~, alphas, ~] = kpca(data_train, kernelM, 4);
 
 z = zeros(size(data_test));
 for i=1:N
@@ -62,6 +62,7 @@ figure()
 hold on
 plot(data_test(:, 1), data_test(:, 2), '.', 'DisplayName', 'Noised Data')
 plot(z(:, 1), z(:,2), 'x', 'DisplayName', 'Denoised Data')
+axis off;
 title('KPCA Denoising');
 legend('-DynamicLegend')
 saveas(gcf, 'fig/kpca_box.png');
@@ -80,6 +81,7 @@ figure()
 hold on
 plot(data_test(:, 1), data_test(:, 2), '.', 'DisplayName', 'Noised Data')
 plot(z(:, 1), z(:, 2), 'x', 'DisplayName', 'Denoised Data')
+axis off;
 title('PCA Denoising');
 legend('-DynamicLegend')
 saveas(gcf, 'fig/pca_box.png');
