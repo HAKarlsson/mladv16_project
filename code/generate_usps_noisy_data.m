@@ -20,8 +20,8 @@ speckleTest = pick_pixel.*flip_flop + ~pick_pixel.*testData;
 speckleTest(:,1) = labels; % restore labels
 
 % save matrices to the same file
-save('data/usps_noisy_test.mat', '-v7', 'gaussianTest', 'speckleTest')
-
+%save('data/usps_noisy_test.mat', '-v7', 'gaussianTest', 'speckleTest')
+load data/usps_noisy_test.mat
 c = [3,51,101,151,201,251,305,353,403,451]; % data number
 z=[];
 % Now we will denoise x, z is the denoised x
