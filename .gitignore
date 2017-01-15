@@ -182,6 +182,6 @@ TSWLatexianTemp*
 # Octave
 octave-workspace
 
-*.png
+#*.png
 .DS_Store
 
