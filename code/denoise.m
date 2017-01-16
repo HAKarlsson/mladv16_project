@@ -33,8 +33,6 @@ function z = denoise(x, X, alpha, kernel, max_iter, min_iter)
   iter = 0;
   while (norm(z-z_old) > 10^-8 && iter < max_iter || iter < min_iter)
     z_old = z;
-    num = zeros(size(x));
-    denum = 0;
     Z = repmat(z, [N, 1]);
     fac = kernel(Z, X) .* gamma;
     num = fac' * X;

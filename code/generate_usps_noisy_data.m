@@ -29,9 +29,8 @@ for i=c
   x = speckleTest(i,2:257);
   z = [z;x];
 end
-Im = usps_matrix2images(z);
-I = mat2gray(Im, [1, -1]);
-imwrite(I, sprintf('fig/usps_speckle.jpg'));
+image = usps_matrix2images(z);
+imwrite(image, sprintf('fig/usps_speckle.jpg'));
 
 z=[];
 % Now we will denoise x, z is the denoised x
@@ -39,9 +38,8 @@ for i=c
   x = gaussianTest(i,2:257);
   z = [z;x];
 end
-Im = usps_matrix2images(z);
-I = mat2gray(Im, [1, -1]);
-imwrite(I, sprintf('fig/usps_gaussian.jpg'));
+image = usps_matrix2images(z);
+imwrite(image, sprintf('fig/usps_gaussian.jpg'));
 
 z=[];
 % Now we will denoise x, z is the denoised x
@@ -49,6 +47,5 @@ for i=c
   x = testData(i,2:257);
   z = [z;x];
 end
-Im = usps_matrix2images(z);
-I = mat2gray(Im, [1, -1]);
-imwrite(I, sprintf('fig/usps_test.jpg'));
+image = usps_matrix2images(z);
+imwrite(image, sprintf('fig/usps_test.jpg'));

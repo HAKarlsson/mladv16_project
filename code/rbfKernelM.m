@@ -1,5 +1,5 @@
 
-
+% RBF Kernel matrix
 function K = rbfKernelM(X, param)
   % N: number of samples
   N = size(X, 1);
