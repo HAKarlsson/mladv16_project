@@ -1,4 +1,4 @@
-function image=usps_matrix2image(image_vectors)
+function image=usps_matrix2images(image_vectors)
   [N,D] = size(image_vectors);
   image_matrix = [];
   for n=1:N
@@ -6,4 +6,4 @@ function image=usps_matrix2image(image_vectors)
     image_matrix = [image_matrix; Im];
   end
   image_matrix = image_matrix';
-  image = mat2gray(image_matrix, [1, -1]);
+  image = mat2gray(image_matrix);

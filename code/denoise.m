@@ -31,7 +31,7 @@ function z = denoise(x, X, alpha, kernel, max_iter, min_iter)
   z = x; % x as initial guess
   z_old = zeros(size(z));
   iter = 0;
-  while (norm(z-z_old) > 10^-8 && iter < max_iter || iter < min_iter)
+  while (norm(z-z_old) > 10^-6 && iter < max_iter || iter < min_iter)
     z_old = z;
     Z = repmat(z, [N, 1]);
     fac = kernel(Z, X) .* gamma;
